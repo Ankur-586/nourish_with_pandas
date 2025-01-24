@@ -67,3 +67,8 @@ sheet_data = data.parse(sheet_names[0])
 sheet_names, sheet_data.head(), sheet_data.info()
 print(sheet_data.head())
 # -----------------------------------------------------------------------
+
+product_names = df['Brand Name'].tolist()
+product_weight = df['Pack Size'].to_list()
+data = zip(product_names, product_weight)
+print(list(data))
