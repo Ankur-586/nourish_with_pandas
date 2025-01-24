@@ -1,0 +1,69 @@
+remove initial lines in pandas dataframe
+
+remove unnamed row pandas
+
+--------------------------------------------------------------------------
+Few pandas useful lines. Do Research On how it works And DO NOT DELETE
+----------------------------------------------------------------------
+print(list(df.columns.values))
+# df.columns = df.columns.str.strip()
+# prod_pri = df['MRP'].to_list()
+
+to convert df back to excel:
+# df.to_excel('cleaned_files.xlsx', index=True)
+
+df = pd.read_excel(excel_file_path, engine='openpyxl',  index_col=0, parse_dates=['MRP Update Date '])
+
+columns_to_drop = [col for col in df1.columns if col.startswith('Unnamed:')]
+---------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------
+Import Links: (DO NOT DELETE)
+-----------------------------
+https://www.geeksforgeeks.org/different-ways-to-iterate-over-rows-in-pandas-dataframe/
+--------------------------------------------------------------------------------------------
+
+DO NOT DELETE:
+'''
+In my organstion we have 5 products 2 websites and 3 mobile apps. Now suppose i am a member of my team. 
+And i have been assigned all the testing taks. But from past 1 year,  i am doing manual testing. What proccess 
+i can set to improve the tesing and build a TESTING DEPARTMENT. 
+
+columns = ["S.No","Brand Name","Type","Pack Size","MRP Update Date","MRP/-"]
+i have a excel file which has 127 products inside it.And it has suppose 50 product which
+applies 5% gst applied and suppose other has 12% gst applied and so on.
+Now i am writing a python script and using pandas to read the excel, calculate the gst
+and then create a seperate excel. So my q2ueswtion is how do i manage that how the code 
+will know which product has what gst rate. QWhat do i? Dont give code. jsut uive ideas
+
+
+how do i remove the unnamed row in dataframe pandas
+
+S.No	Brand Name	Type	Pack Size	MRP Update Date 	MRP
+
+Bail Kolhu Mustard Oil	Pet Bottle	200ml 	8-1-25	43
+Nourish Refined Sunflower Oil	Pet Jar	15 Ltr 	8-1-25	2,600
+Nourish Refined Sunflower Oil	Tin	15 Ltr 		
+Nourish Refined Sunflower Oil	Tin	15 Kg 		
+'''
+
+
+
+# --------------------------------------------------------------
+in this i want to add gst rate to product ": S.No and product_name. I want to group the values in the S.No column 
+into specific ranges. For example, I want to group values from 1 to 78 into one group, values from 79 to 89 into 
+another group, and if a value like 90 occurs, it should be included in the first group. The same logic should apply 
+to other values as well."
+
+# Load the uploaded Excel file to inspect its structure
+file_path = '/mnt/data/MRP New Update (08-01-25).xlsx'
+
+# Load the data from the file (assuming the first sheet for now)
+data = pd.ExcelFile(excel_file_path)
+sheet_names = data.sheet_names
+
+# Preview the first sheet's content to understand the structure
+sheet_data = data.parse(sheet_names[0])
+sheet_names, sheet_data.head(), sheet_data.info()
+print(sheet_data.head())
+# -----------------------------------------------------------------------

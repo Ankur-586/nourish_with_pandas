@@ -169,3 +169,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+excel_file
+MRP New Update (08-01-25).xlsx
