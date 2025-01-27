@@ -72,3 +72,43 @@ product_names = df['Brand Name'].tolist()
 product_weight = df['Pack Size'].to_list()
 data = zip(product_names, product_weight)
 print(list(data))
+
+
+------------------------------------------------
+for index, row in df.iterrows():
+    print(f"S.No: {index}, Row:\n{row}")
+
+o/p: of the above code
+# S.No                                     1
+# Brand Name          Bail Kolhu Mustard Oil
+# Type                               Pet Jar
+# Pack Size                          15 Ltr 
+# MRP Update Date        2025-01-08 00:00:00
+# MRP/-                               2977.0
+# Name: 0, dtype: object
+-------------------------------------------------
+
+What to do:
+1. Download the excel from mail, upload the excel to the python script. 
+   
+   a. update the price according to the gst rate applied to it.
+   b. after doing this, then make a way to compare 2 excel files
+      and check if aproduct price has been changed as compared to
+      the previous file. and if it has then chnage the price according
+      to the gts rate.
+
+-------------------------------------------------------------------------------------
+print(df)
+     S.No                Brand Name          Type Pack Size MRP Update Date    MRP/-
+0       1    Bail Kolhu Mustard Oil       Pet Jar   15 Ltr        2025-01-08  2977.0
+1       2    Bail Kolhu Mustard Oil       Pet Jar      5 L        2025-01-08  1027.0
+2       3    Bail Kolhu Mustard Oil       Pet Jar      2 L        2025-01-08   411.0
+3       4    Bail Kolhu Mustard Oil    Pet Bottle      1 L        2025-01-08   203.0
+4       5    Bail Kolhu Mustard Oil         Pouch      1 L        2025-01-08   196.0
+..    ...                       ...           ...       ...              ...     ...
+121   123         Nourish Pistachio    Monocarton    250 gm       2024-11-11   528.0
+122   124        Nourish Chia Seeds    Monocarton    250 gm       2024-11-11   239.0
+123   125  Nourish Sunflower Seeds     Monocarton    250 gm       2024-11-11   239.0
+124   126    Nourish Pumpkin Seeds     Monocarton    250 gm       2024-11-11   239.0
+125   127      Nourish Gond Katira   Zipper Pouch     50 gm       2024-11-11    38.0
+----------------------------------------------------------------------------------------
