@@ -1,6 +1,9 @@
-import pandas as pd
+import pandas as pd, datetime
 
 from utils import gst_amount, get_masterData
+
+# get today's date and time
+current_date = datetime.datetime.now().strftime("%d-%m-%Y")
 
 # get gst data
 gst_data = get_masterData()
@@ -51,7 +54,7 @@ for index, row in df.iterrows():
     else:
         print(f"Brand '{brand_name}' is NOT found in any GST group")
 
-output_file_path = r'excel_file\updated_price\cleaned_files.xlsx'
+output_file_path = f'excel_file/updated_price/cleaned_files {current_date}.xlsx'
 df.to_excel(output_file_path, index=False)
 print(f"File saved to: {output_file_path}")
 
