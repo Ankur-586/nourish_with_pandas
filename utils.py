@@ -4,8 +4,7 @@ from master_data.product_with_gst import (productGroup1_GST_5percent,
 
 def gst_amount(amt: int, gst_rate: float):
     '''
-    Formula seperate price of a product 
-    into without gst and base price
+    Formula to calculate Gst Price of a product
     '''
     if not (isinstance(amt, (float,int)) and isinstance(gst_rate, float)):
         return f"AMOUNT: {amt} or GST: {gst_rate} values not appropriate"
@@ -13,7 +12,11 @@ def gst_amount(amt: int, gst_rate: float):
     pre_gst_amt = amt - gst_amt
     return round(pre_gst_amt, 2), round(gst_amt, 2)
 
+
 def get_masterData():
+    '''
+    Convert the Gst lists to a dict
+    '''
     data = {}
     data.update({
             'GST 5%': productGroup1_GST_5percent,
