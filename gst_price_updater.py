@@ -1,6 +1,6 @@
 import pandas as pd, datetime
 
-from utils import gst_amount, get_masterData, fetch_date
+from utils import gst_amount, get_masterData, fetch_date, compare_excel_files
 
 # get today's date and time
 current_date = datetime.datetime.now().strftime("%d-%m-%Y")
@@ -8,8 +8,8 @@ current_date = datetime.datetime.now().strftime("%d-%m-%Y")
 # get gst data
 gst_data = get_masterData()
 
-# excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (08-01-25).xlsx'
-excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (07-01-25).xlsx' 
+excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (08-01-25).xlsx'
+# excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (07-01-25).xlsx' 
 out_date = fetch_date(excel_file_path)
 
 df = pd.read_excel(excel_file_path, engine='openpyxl',  index_col=None, skiprows = lambda x: x in [0, 1])
@@ -60,6 +60,7 @@ if out_date is None:
     output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
 else:
     output_file_path = f'excel_file/updated_price/MRP New Update ({out_date}).xlsx'
+    
 df.to_excel(output_file_path, index=False)
 print(f"File saved to: {output_file_path}")
 

@@ -1,3 +1,11 @@
+------------------------
+PACKAGES:
+---------
+1. pip install pandas
+2. pip install openpyxl
+3. pip install Flask
+------------------------
+
 remove initial lines in pandas dataframe
 
 remove unnamed row pandas
@@ -112,3 +120,20 @@ print(df)
 124   126    Nourish Pumpkin Seeds     Monocarton    250 gm       2024-11-11   239.0
 125   127      Nourish Gond Katira   Zipper Pouch     50 gm       2024-11-11    38.0
 ----------------------------------------------------------------------------------------
+
+
+my requirements:
+1. i have a python script which does a operation on a excel file.
+    It takes a excel file input and after the operatio save the excel in the
+    local computer storeage.
+    
+if fetch_date(old_file) < fetch_date(new_file):
+    products = []
+for index, row1 in df1.iterrows():
+    for index2, row2 in df2.iterrows():
+        # Assuming the 'MRP Update Date' column exists in both dataframes and is a datetime object
+        if pd.to_datetime(row1['MRP Update Date ']) > pd.to_datetime(row2['MRP Update Date ']):
+            print(f"Error")
+        else:
+            products.append(row2['Brand Name'])
+print(products)
