@@ -1,10 +1,23 @@
-------------------------
+---------------------------------------- START -----------------------------------------
 PACKAGES:
 ---------
 1. pip install pandas
 2. pip install openpyxl
 3. pip install Flask
-------------------------
+4. pip install tk-tools
+--------------------
+
+PIP Commands:
+-------------
+pip freeze > requirements.txt
+
+search query:
+-------------
+check if a file exists inside a folder python pathlib
+fetch a file exists inside a folder and if it does fetch its path python pathlib
+choose file in python
+
+---------------------------------------- END -------------------------------------------
 
 remove initial lines in pandas dataframe
 
@@ -137,3 +150,16 @@ for index, row1 in df1.iterrows():
         else:
             products.append(row2['Brand Name'])
 print(products)
+
+https://likegeeks.com/pandas-read-excel/
+
+search query:
+check if a file exists inside a folder python pathlib
+
+fetch a file exists inside a folder and if it does fetch its path python pathlib
+
+choose file in python
+
+file_info.update({
+            'File Path': file, 
+            'File Name': file.name})

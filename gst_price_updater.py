@@ -8,7 +8,7 @@ current_date = datetime.datetime.now().strftime("%d-%m-%Y")
 # get gst data
 gst_data = get_masterData()
 
-excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (08-01-25).xlsx'
+excel_file_path = r'excel_file\MRP New Update (07-01-25).xlsx'
 # excel_file_path = r'D:\0-convert_price\excel_file\MRP New Update (07-01-25).xlsx' 
 out_date = fetch_date(excel_file_path)
 

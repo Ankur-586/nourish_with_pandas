@@ -1,4 +1,8 @@
 import re, pandas as pd
+from pathlib import Path
+
+from tkinter import Tk 
+from tkinter.filedialog import askopenfilename
 
 from master_data.product_with_gst import (productGroup1_GST_5percent, 
                                           productGroup2_GST_0percent, productGroup3_GST_12percent)
@@ -68,6 +72,27 @@ def compare_excel_files(url):
         return product_to_update_list, new_df
     else:
         return None
+# --------------------------------------------------------------------------------------------------------------
+def read_filePath():
+    excel_file_folder = Path('excel_file')
+    subdirs = ['updated_price']
+    excel_file_folder.mkdir(parents=True, exist_ok=True)
+    for subdir in subdirs:
+        (excel_file_folder / subdir).mkdir(parents=True, exist_ok=True)
+    files = list(excel_file_folder.glob('**/*.xlsx'))
+    file_info = []
+    for file in files:                                                     
+        # Store the file path and file name as a tuple in the list
+        file_info.append({
+            'File Path': file,
+            'File Name': file.name
+        })
+    Tk().withdraw() 
+    filename = askopenfilename() 
+    print(filename)
+read_filePath()
+# --------------------------------------------------------------------------------------------------------------
+
 '''
 This is My code. Do Not Delete
 
