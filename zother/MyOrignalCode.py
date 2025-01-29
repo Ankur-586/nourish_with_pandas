@@ -1,6 +1,21 @@
 '''
 These are My Original code's. Do Not Delete
 
+--------------------------------------------------
+file_path = file_info[0]['File Path']
+x = os.path.getmtime(file_path)
+dt_object = datetime.fromtimestamp(x)
+formatted_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
+
+latest = []
+for latest_file_entry in file_info:   
+   latest_entry = get_last_modified_time(latest_file_entry['File Path'])
+#     x, y = lastest_entry.split()
+   latest.append(latest_entry)
+latest.sort()
+print(latest)
+---------------------------------------------------------
+
 def read_filePath():
     excel_file_folder = Path('excel_file')
     subdirs = ['updated_price']

@@ -121,11 +121,9 @@ def read_filePath():
             print('File Selection Failed. Try Again!!')
     else:
         print('File Exists! Please Proceed Further')
-        print(file_info)
-        for latest_file_entry in file_info:   
-            lastest_entry = get_last_modified_time(latest_file_entry['File Path'])
-            
-
+        return file_info[-1]
+        
+        
 # --------------------------------------------------------------------------------------------------------------
 
 

@@ -46,7 +46,7 @@ My Requirements:
       will be updated
 
 Challenges:
-a. On the first run, there is no issue. The function to updadte the excel runs fine.
+a. On the first run, there is no issue. The function to update the excel runs fine.
 But on the second when is a new excel file to compare then how the function will
 identiity that it should run for all product or a list of product.
 --------------------------------------------------------------------------------------
@@ -125,16 +125,4 @@ And i have been assigned all the testing taks. But from past 1 year,
 i am doing manual testing. What proccess 
 i can set to improve the tesing and build a TESTING DEPARTMENT. 
 
-excel_file (mail folder)
-|
-|-->Update_price (This is folder)
-   |
-   |--> test.xlsx (this is a file)
-|
-|--> main_excel_file (this a file)
 
-
-file_path = file_info[0]['File Path']
-x = os.path.getmtime(file_path)
-dt_object = datetime.fromtimestamp(x)
-formatted_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
