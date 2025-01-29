@@ -1,7 +1,8 @@
-import re, pandas as pd
+import re, pandas as pd, shutil, os
 from pathlib import Path
+from datetime import datetime
 
-from tkinter import Tk 
+import tkinter as tk
 from tkinter.filedialog import askopenfilename
 
 from master_data.product_with_gst import (productGroup1_GST_5percent, 
@@ -43,7 +44,7 @@ def fetch_date(url):
     else:
         return None
 # ---------------------------------------------------------------------------------
-def compare_excel_files(url):
+def compare_excel_files():
     old_file = r'D:\0-convert_price\excel_file\MRP New Update (07-01-25).xlsx'
     new_file = r'D:\0-convert_price\excel_file\MRP New Update (08-01-25).xlsx'
     # Read the Excel files into DataFrames, skipping the first two rows and handling missing values
@@ -73,55 +74,59 @@ def compare_excel_files(url):
     else:
         return None
 # --------------------------------------------------------------------------------------------------------------
-def read_filePath():
-    excel_file_folder = Path('excel_file')
+def get_last_modified_time(file_path):
+    '''
+    This function give the Modified date of the excel file.
+    '''
+    try:
+        formatted_date = os.path.getmtime(file_path)
+        return datetime.fromtimestamp(formatted_date).strftime('%d-%m-%y %H:%M:%S')
+    except FileNotFoundError:
+        return None  # If the file doesn't exist
+# --------------------------------------------------------------------------------------------------------------
+def create_directories(excel_file_folder):
     subdirs = ['updated_price']
     excel_file_folder.mkdir(parents=True, exist_ok=True)
     for subdir in subdirs:
         (excel_file_folder / subdir).mkdir(parents=True, exist_ok=True)
-    files = list(excel_file_folder.glob('**/*.xlsx'))
+
+def collect_file_info(excel_file_folder):
+    files = list(excel_file_folder.glob('*.xlsx'))
     file_info = []
-    for file in files:                                                     
-        # Store the file path and file name as a tuple in the list
-        file_info.append({
-            'File Path': file,
-            'File Name': file.name
-        })
-    Tk().withdraw() 
-    filename = askopenfilename() 
-    print(filename)
-read_filePath()
+    for file in files:
+        # Exclude files inside the "Update_price" folder
+        if "Update_price" not in file.parts:
+            # Store the file path and file name as a tuple in the list
+            file_info.append({
+                'File Path': file,
+                'File Name': file.name
+            })
+    return file_info
+
+def read_filePath():
+    excel_file_folder = Path('excel_file')
+    create_directories(excel_file_folder)
+    
+    file_info = collect_file_info(excel_file_folder)
+    if len(file_info) == 0:
+        print("File Doesn't Exist. Please Select the File!!")
+        selected_file = askopenfilename(title="Select an Excel File", initialdir=excel_file_folder, 
+                        filetypes=[("Excel Files", "*.xlsx;*.xls")])
+        if selected_file:
+            print(f"Selected file: {selected_file}")
+            shutil.copy(selected_file, excel_file_folder)
+            file_info = collect_file_info(excel_file_folder)
+            return file_info[0]['File Path']
+        else:
+            print('File Selection Failed. Try Again!!')
+    else:
+        print('File Exists! Please Proceed Further')
+        print(file_info)
+        for latest_file_entry in file_info:   
+            lastest_entry = get_last_modified_time(latest_file_entry['File Path'])
+            
+
 # --------------------------------------------------------------------------------------------------------------
 
-'''
-This is My code. Do Not Delete
 
-def compare_excel_files():
-    old_file = r'D:\0-convert_price\excel_file\MRP New Update (07-01-25).xlsx'
-    new_file = r'D:\0-convert_price\excel_file\MRP New Update (08-01-25).xlsx'
-    old_df = pd.read_excel(old_file, engine='openpyxl',  index_col=None, skiprows = lambda x: x in [0, 1]) \
-        .dropna(how='all', inplace=False, subset=['MRP/-'])
-    new_df = pd.read_excel(new_file, engine='openpyxl',  index_col=None, skiprows = lambda x: x in [0, 1]) \
-        .dropna(how='all', inplace=False, subset=['MRP/-'])
-    df1 = old_df.drop('Unnamed: 6', axis=1)
-    df2 = new_df.drop('Unnamed: 6', axis=1)
-    
-    prod_1, prod_2, product_to_update = [], [], []
-    for index, row in df1.iterrows():
-        product = row['Brand Name']
-        weight = row['Pack Size']
-        update_date = row['MRP Update Date '].strftime('%Y-%m-%d')
-        prod_1.append((product, weight, update_date))
-    # print(prod_1)
-    for index1, row1 in df2.iterrows():
-        product = row1['Brand Name']
-        weight = row1['Pack Size']
-        update_date = row1['MRP Update Date '].strftime('%Y-%m-%d')
-        prod_2.append((product, weight, update_date))
-    # print(prod_2)
-    for x, y in zip(prod_1, prod_2):
-        if x[2] < y[2]:
-            product_to_update.append(y)
-    print(product_to_update)
-compare_excel_files()
-'''
+

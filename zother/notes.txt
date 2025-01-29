@@ -13,15 +13,63 @@ pip freeze > requirements.txt
 
 search query:
 -------------
+how do i remove the unnamed row in dataframe pandas
+remove initial lines in pandas dataframe
+remove unnamed row pandas
 check if a file exists inside a folder python pathlib
 fetch a file exists inside a folder and if it does fetch its path python pathlib
 choose file in python
+when i read excel file in pandas the date column is getting converted to timestamp
+choose excel file in python from a particular location and save it in a particular location
 
----------------------------------------- END -------------------------------------------
+Import Links: (DO NOT DELETE)
+-----------------------------
+https://likegeeks.com/pandas-read-excel/
+https://www.geeksforgeeks.org/different-ways-to-iterate-over-rows-in-pandas-dataframe/
 
-remove initial lines in pandas dataframe
+--------------------------------------------------------------------------------------
+My Requirements:
+----------------
+1. Download the excel from mail, upload the excel to a certain location.
 
-remove unnamed row pandas
+2. Read the excel File, add gst columns to each product accroding to the gst 
+   class which the product belongs to and calculate the price of each product
+   according to its specific gst rate.
+
+3. Now we have multiple different scenerios:
+   a. On the first run, There will only 1 excel file. So gst calculation for 
+      the products will be done. As there is no other excel file to compare with.
+
+   b. When there is another run, Now new excel file is uploaded and we have a
+      excel file which is already present. So Now a comparison will happen,
+      and only those product  whose update date is greate than previous date
+      will be updated
+
+Challenges:
+a. On the first run, there is no issue. The function to updadte the excel runs fine.
+But on the second when is a new excel file to compare then how the function will
+identiity that it should run for all product or a list of product.
+--------------------------------------------------------------------------------------
+
+Rew Usefull Codes:
+------------------
+# Load the data from the file (assuming the first sheet for now)
+data = pd.ExcelFile(excel_file_path)
+sheet_names = data.sheet_names
+
+# Preview the first sheet's content to understand the structure
+sheet_data = data.parse(sheet_names[0])
+sheet_names, sheet_data.head(), sheet_data.info()
+print(sheet_data.head())
+
+# To zip files
+product_names = df['Brand Name'].tolist()
+product_weight = df['Pack Size'].to_list()
+data = zip(product_names, product_weight)
+print(list(data))
+
+-----------------########################## END ##########################----------------------
+
 
 --------------------------------------------------------------------------
 Few pandas useful lines. Do Research On how it works And DO NOT DELETE
@@ -38,63 +86,6 @@ df = pd.read_excel(excel_file_path, engine='openpyxl',  index_col=0, parse_dates
 columns_to_drop = [col for col in df1.columns if col.startswith('Unnamed:')]
 ---------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------
-Import Links: (DO NOT DELETE)
------------------------------
-https://www.geeksforgeeks.org/different-ways-to-iterate-over-rows-in-pandas-dataframe/
---------------------------------------------------------------------------------------------
-
-DO NOT DELETE:
-'''
-In my organstion we have 5 products 2 websites and 3 mobile apps. Now suppose i am a member of my team. 
-And i have been assigned all the testing taks. But from past 1 year,  i am doing manual testing. What proccess 
-i can set to improve the tesing and build a TESTING DEPARTMENT. 
-
-columns = ["S.No","Brand Name","Type","Pack Size","MRP Update Date","MRP/-"]
-i have a excel file which has 127 products inside it.And it has suppose 50 product which
-applies 5% gst applied and suppose other has 12% gst applied and so on.
-Now i am writing a python script and using pandas to read the excel, calculate the gst
-and then create a seperate excel. So my q2ueswtion is how do i manage that how the code 
-will know which product has what gst rate. QWhat do i? Dont give code. jsut uive ideas
-
-
-how do i remove the unnamed row in dataframe pandas
-
-S.No	Brand Name	Type	Pack Size	MRP Update Date 	MRP
-
-Bail Kolhu Mustard Oil	Pet Bottle	200ml 	8-1-25	43
-Nourish Refined Sunflower Oil	Pet Jar	15 Ltr 	8-1-25	2,600
-Nourish Refined Sunflower Oil	Tin	15 Ltr 		
-Nourish Refined Sunflower Oil	Tin	15 Kg 		
-'''
-
-
-
-# --------------------------------------------------------------
-in this i want to add gst rate to product ": S.No and product_name. I want to group the values in the S.No column 
-into specific ranges. For example, I want to group values from 1 to 78 into one group, values from 79 to 89 into 
-another group, and if a value like 90 occurs, it should be included in the first group. The same logic should apply 
-to other values as well."
-
-# Load the uploaded Excel file to inspect its structure
-file_path = '/mnt/data/MRP New Update (08-01-25).xlsx'
-
-# Load the data from the file (assuming the first sheet for now)
-data = pd.ExcelFile(excel_file_path)
-sheet_names = data.sheet_names
-
-# Preview the first sheet's content to understand the structure
-sheet_data = data.parse(sheet_names[0])
-sheet_names, sheet_data.head(), sheet_data.info()
-print(sheet_data.head())
-# -----------------------------------------------------------------------
-
-product_names = df['Brand Name'].tolist()
-product_weight = df['Pack Size'].to_list()
-data = zip(product_names, product_weight)
-print(list(data))
-
-
 ------------------------------------------------
 for index, row in df.iterrows():
     print(f"S.No: {index}, Row:\n{row}")
@@ -108,16 +99,6 @@ o/p: of the above code
 # MRP/-                               2977.0
 # Name: 0, dtype: object
 -------------------------------------------------
-
-What to do:
-1. Download the excel from mail, upload the excel to the python script. 
-   
-   a. update the price according to the gst rate applied to it.
-   b. after doing this, then make a way to compare 2 excel files
-      and check if aproduct price has been changed as compared to
-      the previous file. and if it has then chnage the price according
-      to the gts rate.
-
 -------------------------------------------------------------------------------------
 print(df)
      S.No                Brand Name          Type Pack Size MRP Update Date    MRP/-
@@ -135,31 +116,25 @@ print(df)
 ----------------------------------------------------------------------------------------
 
 
-my requirements:
-1. i have a python script which does a operation on a excel file.
-    It takes a excel file input and after the operatio save the excel in the
-    local computer storeage.
-    
-if fetch_date(old_file) < fetch_date(new_file):
-    products = []
-for index, row1 in df1.iterrows():
-    for index2, row2 in df2.iterrows():
-        # Assuming the 'MRP Update Date' column exists in both dataframes and is a datetime object
-        if pd.to_datetime(row1['MRP Update Date ']) > pd.to_datetime(row2['MRP Update Date ']):
-            print(f"Error")
-        else:
-            products.append(row2['Brand Name'])
-print(products)
 
-https://likegeeks.com/pandas-read-excel/
+DO NOT DELETE:
+--------------
+In my organstion we have 5 products 2 websites and 3 mobile apps. 
+Now suppose i am a member of my team. 
+And i have been assigned all the testing taks. But from past 1 year,  
+i am doing manual testing. What proccess 
+i can set to improve the tesing and build a TESTING DEPARTMENT. 
 
-search query:
-check if a file exists inside a folder python pathlib
+excel_file (mail folder)
+|
+|-->Update_price (This is folder)
+   |
+   |--> test.xlsx (this is a file)
+|
+|--> main_excel_file (this a file)
 
-fetch a file exists inside a folder and if it does fetch its path python pathlib
 
-choose file in python
-
-file_info.update({
-            'File Path': file, 
-            'File Name': file.name})
+file_path = file_info[0]['File Path']
+x = os.path.getmtime(file_path)
+dt_object = datetime.fromtimestamp(x)
+formatted_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
