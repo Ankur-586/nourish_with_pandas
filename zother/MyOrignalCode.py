@@ -82,4 +82,25 @@ def compare_excel_files():
             product_to_update.append(y)
     print(product_to_update)
 compare_excel_files()
+-------------------------------------------------------------------------
+def read_filePathNOUSE():
+    'this function is not getting used'
+    excel_file_folder = Path('excel_file')
+    create_directories(excel_file_folder)
+    
+    file_info = collect_file_info(excel_file_folder)
+    if len(file_info) == 0:
+        print("File Doesn't Exist. Please Select the File!!")
+        selected_file = askopenfilename(title="Select an Excel File", initialdir=excel_file_folder, 
+                        filetypes=[("Excel Files", "*.xlsx;*.xls")])
+        if selected_file:
+            print(f"Selected file: {selected_file}")
+            shutil.copy(selected_file, excel_file_folder)
+            file_info = collect_file_info(excel_file_folder)
+            return file_info[0]['File Path']
+        else:
+            print('File Selection Failed. Try Again!!')
+    else:
+        print('File Exists! Please Proceed Further')
+        return file_info[-1]
 '''
