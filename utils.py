@@ -116,7 +116,7 @@ def read_filePath():
             print(f"Selected file: {selected_file}")
             shutil.copy(selected_file, excel_file_folder)
             file_info = collect_file_info(excel_file_folder)
-            return file_info[-1]['File Path']
+            return str(file_info[-1]['File Path'])
         else:
             print('File Selection Failed. Try Again!!')
     else:
@@ -132,11 +132,4 @@ def read_filePath():
             return compare_excel_files(old_file, lastest_file)
         else:
             print('File Selection Failed. Try Again!!')
-            
-            
-            
-            
-            
-            
-            
 # --------------------------------------------------------------------------------------------------------------

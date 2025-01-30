@@ -5,31 +5,72 @@ from utils import gst_amount, get_masterData, fetch_date, compare_excel_files, r
 # get today's date and time
 current_date = datetime.datetime.now().strftime("%d-%m-%Y")
 
+# Get GST data
+gst_data = get_masterData()
+# Create a lookup set for faster brand name matching
+gst_5_percent_brands = {product[0] for product in gst_data['GST 5%']}
+gst_0_percent_brands = {product[0] for product in gst_data['GST 0%']}
+gst_12_percent_brands = {product[0] for product in gst_data['GST 12%']}
+
 # Define file path
 output = read_filePath()
 
 if isinstance(output, tuple) and len(output) == 2:
-    print('First')
+    print('Entering IF')
+    product_to_update_list, new_df = output
+
+    product_to_update = {product[0] for product in product_to_update_list}
+    # print('product_to_update_set', product_to_update_set)
+    # {('Nourish Refined Sunflower Oil', '5 L '), ('Bail Kolhu Mustard Oil', '5 L '), ('Nourish Refined Sunflower Oil', '500ml '), ('Bail Kolhu Mustard Oil', '500ml '), 
+    # ('Nourish Refined Sunflower Oil', '15 Ltr '), ('Bail Kolhu Mustard Oil', '200ml '), ('Bail Kolhu Mustard Oil', '15 Ltr '), ('Bail Kolhu Mustard Oil', '2 L '), 
+    # ('Nourish Refined Sunflower Oil', '2 L '), ('Nourish Refined Sunflower Oil', '1 L '), ('Bail Kolhu Mustard Oil', '1 L ')}
+    count = 0
+    for index, row in new_df.iterrows():
+        brand_name = row['Brand Name'].strip()
+        price = row['MRP/-']
+        if brand_name in product_to_update and brand_name in gst_5_percent_brands:
+            new_df.at[index, 'GST'] = '5%'
+            product_price = price
+            gst_rate = 5.0
+            pre_gst_amt, total_gst = gst_amount(product_price, gst_rate)
+            new_df.at[index, 'Amount Before Tax'] = pre_gst_amt
+            new_df.at[index, 'Total GST'] = total_gst
+        elif brand_name in product_to_update and brand_name in gst_0_percent_brands:
+            new_df.at[index, 'GST'] = '0%'
+            product_price = price
+            gst_rate = 0.0
+            pre_gst_amt, total_gst = gst_amount(product_price, gst_rate)
+            new_df.at[index, 'Amount Before Tax'] = pre_gst_amt
+            new_df.at[index, 'Total GST'] = total_gst
+            # print(f"Brand '{brand_name}', {price} is present in GST 0%")
+        elif brand_name in product_to_update and brand_name in gst_12_percent_brands:
+            new_df.at[index, 'GST'] = '12%'
+            product_price = price
+            gst_rate = 12.0
+            pre_gst_amt, total_gst = gst_amount(product_price, gst_rate)
+            new_df.at[index, 'Amount Before Tax'] = pre_gst_amt
+            new_df.at[index, 'Total GST'] = total_gst
+            # print(f"Brand '{brand_name}', {price} is present in GST 12%")
+        else:
+            print(f"Brand '{brand_name}' is NOT found in any GST group")
+    
+    output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+    new_df.to_excel(output_file_path, index=False)
+    print(f"Updated file saved to: {output_file_path}")
+    
 elif isinstance(output, str):   
+    print('Entered ELIF')
     # fetch date from the file
     out_date = fetch_date(output)
-
+    output_url = output
     # Read Excel File
-    df = pd.read_excel(output, engine='openpyxl', index_col=None, skiprows=lambda x: x in [0, 1])
+    df = pd.read_excel(output, engine='openpyxl', index_col=None, skiprows=[0, 1])
 
     # Drop rows where all columns are NaN in 'MRP/-'
     df = df.dropna(how='all', inplace=False, subset=['MRP/-'])
 
     # Drop the unnecessary 'Unnamed: 6' column
     df = df.drop('Unnamed: 6', axis=1)
-
-    # Get GST data
-    gst_data = get_masterData()
-
-    # Create a lookup set for faster brand name matching
-    gst_5_percent_brands = {product[0] for product in gst_data['GST 5%']}
-    gst_0_percent_brands = {product[0] for product in gst_data['GST 0%']}
-    gst_12_percent_brands = {product[0] for product in gst_data['GST 12%']}
 
     def apply_gst(row):
         brand_name = row['Brand Name'].strip()

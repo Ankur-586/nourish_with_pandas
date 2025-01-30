@@ -198,3 +198,6 @@ And the code just above this line consumes this function output.
 But it is designed to work for just one output of the read_filePath(). I want to make this useful for other output also.
 But i cant figure out what to do. 
 Did you understand my problem?
+
+
+in the if block i want the same operation happening in the elif block but on only the products which are in the list and leave the other 

@@ -126,3 +126,39 @@ i am doing manual testing. What proccess
 i can set to improve the tesing and build a TESTING DEPARTMENT. 
 
 
+print('product_to_update_set',product_to_update_set)
+filtered_df = new_df[new_df.apply(lambda row: (row['Brand Name'].strip(), row['Pack Size'].strip()) in product_to_update_set, axis=1)]
+print('filtered_df',filtered_df)
+def apply_gst(row):
+        brand_name = row['Brand Name'].strip()
+        price = row['MRP/-']
+
+        if brand_name in gst_5_percent_brands:
+            gst_rate = 5.0
+            gst_group = 'GST 5%'
+        elif brand_name in gst_0_percent_brands:
+            gst_rate = 0.0
+            gst_group = 'GST 0%'
+        elif brand_name in gst_12_percent_brands:
+            gst_rate = 12.0
+            gst_group = 'GST 12%'
+        else:
+            print(f"Brand '{brand_name}' is NOT found in any GST group")
+            return row
+
+        # Calculate GST amounts
+        pre_gst_amt, total_gst = gst_amount(price, gst_rate)
+
+        # Update row with calculated values
+        row['GST'] = gst_group
+        row['Amount Before Tax'] = pre_gst_amt
+        row['Total GST'] = total_gst
+        return row
+
+    # Apply the function to each row in filtered_df
+    filtered_df = filtered_df.apply(apply_gst, axis=1)
+
+    # After applying GST, save the filtered updated DataFrame to a new file
+    output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+    filtered_df.to_excel(output_file_path, index=False)
+    print(f"Updated file saved to: {output_file_path}")
