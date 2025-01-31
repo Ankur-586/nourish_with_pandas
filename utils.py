@@ -166,6 +166,7 @@ def apply_gst_and_save(selected_file):
     current_date = dt.datetime.now().strftime("%d-%m-%Y")
     gst_data = get_masterData()
     output = process_excel_file(selected_file)
+    out_date = fetch_date(selected_file)
     # Create a lookup set for faster brand name matching
     gst_5_percent_brands = {product[0] for product in gst_data['GST 5%']}
     gst_0_percent_brands = {product[0] for product in gst_data['GST 0%']}
@@ -204,7 +205,10 @@ def apply_gst_and_save(selected_file):
                 new_df.at[index, 'Amount Before Tax'] = None
                 new_df.at[index, 'Total GST'] = None
 
-        output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+        if out_date is None:
+            output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+        else:
+            output_file_path = f'excel_file/updated_price/MRP New Update ({out_date}).xlsx'
         new_df.to_excel(output_file_path, index=False)
         print(f"Updated file saved to: {output_file_path}")
         return output_file_path
