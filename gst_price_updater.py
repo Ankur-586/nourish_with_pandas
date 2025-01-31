@@ -15,11 +15,9 @@ gst_12_percent_brands = {product[0] for product in gst_data['GST 12%']}
 # Define file path
 output = read_filePath()
 
-if isinstance(output, tuple) and len(output) == 2:
+if isinstance(output, tuple) and len(output) == 3:
     print('Entering IF')
-    product_to_update_list, new_df = output
-    
-    
+    product_to_update_list, new_df, out_date = output
     product_to_update = {product[0] for product in product_to_update_list}
     for index, row in new_df.iterrows():
         brand_name = row['Brand Name'].strip()
@@ -50,8 +48,10 @@ if isinstance(output, tuple) and len(output) == 2:
             new_df.at[index, 'Amount Before Tax'] = None
             new_df.at[index, 'Total GST'] = None
             
-    
-    output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+    if out_date is None:
+            output_file_path = f'excel_file/updated_price/MRP New Update ({current_date}).xlsx'
+    else:
+        output_file_path = f'excel_file/updated_price/MRP New Update ({out_date}).xlsx'
     new_df.to_excel(output_file_path, index=False)
     print(f"Updated file saved to: {output_file_path}")
     

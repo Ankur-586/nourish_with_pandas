@@ -67,7 +67,7 @@ def compare_excel_files(old_file_path, new_file_path):
         product_to_update = to_update_df[['Brand Name', 'Pack Size', 'MRP Update Date _new']]
         # Convert to a list of tuples, if desired
         product_to_update_list = list(product_to_update.itertuples(index=False, name=None))
-        return product_to_update_list, new_df
+        return product_to_update_list, new_df, fetch_date(new_file_path)
     else:
         return None
 # --------------------------------------------------------------------------------------------------------------
