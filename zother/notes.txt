@@ -115,6 +115,7 @@ print(df)
 125   127      Nourish Gond Katira   Zipper Pouch     50 gm       2024-11-11    38.0
 ----------------------------------------------------------------------------------------
 
+https://python.plainenglish.io/how-i-automated-data-cleaning-in-python-using-functions-and-pipelines-95b8ad0f6ea5
 
 
 DO NOT DELETE:
